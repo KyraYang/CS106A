@@ -26,20 +26,7 @@ public class Pyramid extends GraphicsProgram {
 	private static final int BRICKS_IN_BASE = 14;
 	
 	public void run() {
-		double screenWidth = getWidth();
-		double screenHeight = getHeight();
-		double midpoint = screenWidth/2;
-		double baseLength = BRICK_WIDTH*BRICKS_IN_BASE;
-		double startX=midpoint-baseLength/2;
-		double startY= screenHeight-BRICK_HEIGHT;
-		for (int i=0;i<BRICKS_IN_BASE;i++){
-			startX = startX+(BRICK_WIDTH/2);
-			int BaseBricks = BRICKS_IN_BASE-i;
-			for (int j=0;j<BaseBricks;j++){
-				GRect brick = new GRect(startX+BRICK_WIDTH*(BaseBricks-j),startY-BRICK_HEIGHT*i,BRICK_WIDTH,BRICK_HEIGHT);
-				add(brick);	
-			}
-		}
+		/* You fill this in. */
 	}
 }
 

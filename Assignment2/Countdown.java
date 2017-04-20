@@ -14,10 +14,7 @@ public class Countdown extends ConsoleProgram {
 	private static final int START = 10;
 
 	public void run() {
-		for (int i=0; i<START; i++){
-			println(START-i);
-		}
-		println("Liftoff");
+		/* You fill this in. */
 	}
 }
 
