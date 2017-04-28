@@ -1,0 +1,6 @@
+INDEX VERSION 1.130+/home/kyra/workspace/CS106A/.metadata/.plugins/org.eclipse.jdt.core
+3156470813.index
+822514700.index
+3443170566.index
+1412680892.index
+2982035129.index
