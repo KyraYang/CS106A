@@ -1,0 +1,17 @@
+/*
+ * File: Drawing a face.java
+ * Name: 
+ * Section Leader: 
+ * -----------------
+ * This program will draw a robot-looking face.
+ */
+
+import acm.graphics.*;
+import acm.program.*;
+import java.awt.*;
+
+public class Section2_2 extends GraphicsProgram {	
+	private static final int HEAD_WIDTH = ;
+	public void run() {
+	  }
+}
