@@ -67,13 +67,207 @@ public class Breakout extends GraphicsProgram {
 /** Runs the Breakout program. */
 	public void run() {
 		/* You fill this in, along with any subsidiary methods */
-		/**set up the playground**/
-		double Window_Width = getWidth();
-		double Window_Height = getHeight();
-		WhereToPutTheFirstBrick(Window_Width, Window_Height);
-	}
-private String[] WhereToPutTheFirstBrick(double x, double y){
+		/**set up the playground*/
+    	double Window_Width = getWidth();
+    	double Window_Height = getHeight();
+		String[] StartPoint = WhereToPutTheFirstBrick(Window_Width, Window_Height);
+		double StarX = Double.parseDouble(StartPoint[0]);
+		double StarY = Double.parseDouble(StartPoint[1]);
+		DrawBricks(StarX,StarY,Color.red);
+		StarY=StarY+16+BRICK_SEP*2;
+		DrawBricks(StarX,StarY,Color.orange);
+		StarY=StarY+16+BRICK_SEP*2;
+		DrawBricks(StarX,StarY,Color.yellow);
+		StarY=StarY+16+BRICK_SEP*2;
+		DrawBricks(StarX,StarY,Color.green);
+		StarY=StarY+16+BRICK_SEP*2;
+		DrawBricks(StarX,StarY,Color.cyan);
+		/**set paddle to position*/
+		Paddle = DrawPaddle(Window_Width);
+		/**set ball to position*/
+		addMouseListeners();
+		/** Ask for a start*/
+		GLabel Start = Banner("Click To Start!");
+		for (int i=0; i<NTURNS;i++){
+			GOval Ball = DrawBall(Window_Width,Window_Height);
+			waitForClick();
+			remove(Start);
+		/**Ball moves*/
+			vx = rgen.nextDouble(2.0, 5.0);
+			vy = 5;
+			if(rgen.nextBoolean(0.5)) vx = -vx;
+			while (BallInThePlayGround(Ball)){
+				if(BallHitLeftOrRightWall(Ball)){
+					vx = -vx;
+			}
+			if (BallHitPaddleUpper(Ball)){
+				vy = -vy;
+			}
+			/*if (BallHitPaddleTwoSides(Ball)){
+				vx = -vx;
+			}*/
+			if (BallHitBrick(Ball)){
+				HittedBrickDisappear(Ball);
+				vy = -vy;
+				TotalBricks+=1;
+				while (TotalBricks == NBRICKS_PER_ROW*NBRICK_ROWS ){
+					Banner("You Win!");
+					System.exit(0);	
+				}
+			}
+			if (BallHitTopWall(Ball)){
+				vy = -vy;
+			}
+			Ball.move(vx, vy);
+			pause(30);
+			}
+		}
+		/**Game over*/
+		Banner("Game Over!");
+		}
+	/**paddle tracks mouse*/		
+	public void mouseMoved(MouseEvent e){
+		if (e.getX()>PADDLE_WIDTH/2&&e.getX()<getWidth()-PADDLE_WIDTH/2){
+		Paddle.setLocation(e.getX()-PADDLE_WIDTH/2, HEIGHT-PADDLE_Y_OFFSET);
+		}
+		}
 	
-	return StartPoint;
+	
+	
+	
+private GObject Paddle;		
+private RandomGenerator rgen = RandomGenerator.getInstance(); 		
+private double vx, vy;
+private int TotalBricks = 0;
+
+ 
+
+	private boolean BallInThePlayGround(GObject Ball){
+		boolean passed =true;
+		if (Ball.getY()>HEIGHT){
+			passed = false;
+			Ball.setVisible(false);	
+		}
+		return passed;
+	}
+	
+
+	private boolean BallHitLeftOrRightWall(GObject Ball){
+		boolean hit = false;
+		if(Ball.getX()<=0 || Ball.getX()+2*BALL_RADIUS>=WIDTH){
+			hit = true;
+		}
+		return hit;
+	}
+	
+
+	private boolean BallHitPaddleUpper(GObject Ball){
+		boolean hit = false;
+		if (Ball.getY()+2*BALL_RADIUS>=HEIGHT-PADDLE_Y_OFFSET &&Ball.getY()+2*BALL_RADIUS <= HEIGHT-PADDLE_Y_OFFSET+PADDLE_HEIGHT && Ball.getX()>=Paddle.getX()&&Ball.getX()<=Paddle.getX()+PADDLE_WIDTH){
+			hit = true;
+		}
+		return hit;
+	}
+	
+
+	private boolean BallHitBrick(GObject Ball){
+		boolean hit = false;
+		if ((getElementAt(Ball.getX(),Ball.getY())!= null
+				|| getElementAt(Ball.getX()+2*BALL_RADIUS, Ball.getY())!=null
+				|| getElementAt(Ball.getX(),Ball.getY()+2*BALL_RADIUS)!=null
+				|| getElementAt(Ball.getX()+2*BALL_RADIUS,Ball.getY()+2*BALL_RADIUS)!=null)
+				&& Ball.getY()+2*BALL_RADIUS< HEIGHT-PADDLE_Y_OFFSET-PADDLE_HEIGHT){
+			hit = true;
+		}
+		return hit;	
+	}
+	
+	private void HittedBrickDisappear(GObject Ball){
+		if ((getElementAt(Ball.getX(),Ball.getY()))!= null && Ball.getY()+2*BALL_RADIUS< HEIGHT-PADDLE_Y_OFFSET-PADDLE_HEIGHT){
+			remove(getElementAt(Ball.getX(),Ball.getY()));
+		}
+		if (getElementAt(Ball.getX()+2*BALL_RADIUS, Ball.getY())!=null&& Ball.getY()+2*BALL_RADIUS< HEIGHT-PADDLE_Y_OFFSET-PADDLE_HEIGHT){
+			remove(getElementAt(Ball.getX()+2*BALL_RADIUS, Ball.getY()));
+		}
+		if (getElementAt(Ball.getX(),Ball.getY()+2*BALL_RADIUS)!=null && Ball.getY()+2*BALL_RADIUS< HEIGHT-PADDLE_Y_OFFSET-PADDLE_HEIGHT){
+			remove(getElementAt(Ball.getX(), Ball.getY()+2*BALL_RADIUS));
+		}
+		if (getElementAt(Ball.getX()+2*BALL_RADIUS,Ball.getY()+2*BALL_RADIUS)!=null
+			&& Ball.getY()+2*BALL_RADIUS< HEIGHT-PADDLE_Y_OFFSET-PADDLE_HEIGHT){
+				remove(getElementAt(Ball.getX()+2*BALL_RADIUS,Ball.getY()+2*BALL_RADIUS));
+			}
+	}
+	
+	private boolean BallHitTopWall(GObject Ball){
+		boolean hit = false;
+		if (Ball.getY()<= 0){
+			hit = true;
+			}
+		return hit;
+	}
+	
+private boolean BallHitPaddleTwoSides(GObject Ball){
+		boolean hit = false;
+		if (Ball.getY()+BALL_RADIUS>=HEIGHT-PADDLE_Y_OFFSET-PADDLE_HEIGHT
+				&& Ball.getY()+BALL_RADIUS<= HEIGHT-PADDLE_Y_OFFSET
+				&& Ball.getX()+2*BALL_RADIUS==Paddle.getX()){
+			hit = true;
+		}
+		return hit;
+	}
+	
+	private GLabel Banner(String str){
+	GLabel Start = new GLabel(str);
+	Start.setFont("Courier-bold-30");
+	double w = Start.getWidth();
+	double h = Start.getAscent();
+	Start.setLocation((WIDTH-w)/2, (HEIGHT-h)/2);
+	add(Start);
+	return Start;
 }
+	private GOval DrawBall(double w, double h){
+		double X = w/2-BALL_RADIUS;
+		double Y = h/2-BALL_RADIUS;
+		GOval Ball = new GOval(X,Y,BALL_RADIUS*2,BALL_RADIUS*2);
+		Ball.setFilled(true);
+		Ball.setFillColor(Color.BLACK);
+		Ball.setColor(Color.BLACK);
+		add(Ball);
+		return Ball;
+	}
+	private GRect DrawPaddle(double w){
+	double X = w/2-PADDLE_WIDTH/2;
+	double Y = HEIGHT-PADDLE_Y_OFFSET-PADDLE_HEIGHT;
+	GRect Paddle = new GRect(X,Y,PADDLE_WIDTH,PADDLE_HEIGHT);
+	Paddle.setFilled(true);
+	Paddle.setFillColor(Color.BLACK);
+	Paddle.setColor(Color.BLACK);
+	add(Paddle);
+	return Paddle;
+}
+	private String[] WhereToPutTheFirstBrick(double x, double y){
+	String StartPoint[] = new String[2];
+	StartPoint[0]=Double.toString(x/2-WIDTH/2);
+	StartPoint[1]=Double.toString(y-HEIGHT+BRICK_Y_OFFSET);
+	return StartPoint;
+	}
+	private void DrawBricks(double x, double y, Color color){
+	double sp = x;
+	for (int n =0; n < 2; n++){
+		for (int i=0; i<NBRICKS_PER_ROW; i++){
+		DrawOneBricks(x,y,color);
+		x=x+BRICK_WIDTH+BRICK_SEP;
+		}
+		y=y+8+BRICK_SEP;
+		x = sp;
+		}
+	}
+	private void DrawOneBricks(double x, double y, Color color){
+	GRect Brick = new GRect(x,y,BRICK_WIDTH,BRICK_HEIGHT);
+	Brick.setFilled(true);
+	Brick.setColor(color);
+	Brick.setFillColor(color);
+	add(Brick);
+	}
+
 }
