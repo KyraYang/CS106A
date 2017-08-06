@@ -1,0 +1,36 @@
+/*
+ * File: Histogram.java
+ * ---------------------
+ * Shows a histogram of a list of scores.
+ */
+
+import java.io.*;
+import java.util.ArrayList;
+import acm.program.*;
+
+public class Histogram extends ConsoleProgram {
+	
+	private ArrayList<Integer> ImportFile(){
+		ArrayList<Integer> s = new ArrayList<Integer>();
+		try{
+			BufferedReader rb = new BufferedReader(new FileReader("Scores.txt"));
+			while(true){
+				String i = rb.readLine();
+				if (i == null) break;
+				print(i);
+				s.add(Integer.parseInt(i));
+			}
+			rb.close();
+		} catch (IOException e){
+			throw new RuntimeException(e);
+		}
+		return s;
+	}
+	
+	
+	public void run() {
+		ArrayList<Integer> scores = ImportFile();
+		println(scores.get(0));
+	}
+}
+

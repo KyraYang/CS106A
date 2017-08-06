@@ -1,0 +1,71 @@
+/*
+ * File: WordcCount.java
+ * ---------------------
+ * Count lines, words and chars.
+ */
+
+import acm.program.*;
+import acm.program.*;
+import acm.util.*;
+import java.awt.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class WordCount extends ConsoleProgram {
+	
+	private ArrayList<String> ImprotFile(String fn){
+		ArrayList<String> ls = new ArrayList<String>();
+		try{
+			BufferedReader br = new BufferedReader(new FileReader(fn));
+			while (true){
+				String line = br.readLine();
+				if (line == null) break;
+				ls.add(line);
+				println(line);
+			}
+			br.close();
+		} catch (IOException e){
+			throw new RuntimeException(e);
+		}
+		return ls;
+	}
+	private void CountLines(ArrayList<String> ls){
+		println("Lines = "+ ls.size());
+	}
+	private void CountWords(ArrayList<String> ls, int ws){
+		for (int i=0; i< ls.size();i++){
+			String line = ls.get(i);
+			for (int j = 0; j< line.length();j++){
+				if (line.charAt(j)==' '){
+					ws++;
+				}
+			}
+		}
+		println("Words = " + ws);
+	}
+	private void CountChars(ArrayList<String> ls, int c){
+		for (int i=0; i< ls.size();i++){
+			String line = ls.get(i);
+			for (int j = 0; j< line.length();j++){
+				print(line.charAt(j));
+				if (Character.isLetterOrDigit(line.charAt(j))){
+					c++;
+				}
+			}
+		}
+		println("Chars = " + c);
+	}
+	
+	public void run() {
+		String fileName = readLine("File: ");
+		ArrayList<String> lines = ImprotFile(fileName);
+		CountLines(lines);
+		int whiteSpace = 1;
+		CountWords(lines, whiteSpace);
+		int chars = 0;
+		CountChars(lines, chars);
+	}
+}
+

@@ -1,0 +1,39 @@
+/*
+ * File: UniqueNames.java
+ * ---------------------
+ * Ask user to enter name, until the user enters a blank line.
+ * Print out names entered, each name is listed only once.
+ */
+
+import java.util.ArrayList;
+import acm.program.*;
+
+public class UniqueNames extends ConsoleProgram {
+	
+	private ArrayList<String> nameList = new ArrayList<String>();
+	
+	private void StoreUniqueName(String n, boolean u){
+		for (int i=0; i<nameList.size();i++){
+			if (n.equals(nameList.get(i))){
+				u = false;
+			}}
+		if (u){
+		nameList.add(n);
+		}
+	}
+	
+	public void run() {
+		while (true){
+			String name = readLine("Enter name: ");
+			if (name.equals("")) break;
+			boolean unique = true;
+			StoreUniqueName(name, unique);
+		}
+		println("Unique name list contains: ");
+		for (int i = 0; i<nameList.size();i++){
+			println(nameList.get(i));
+		}
+		}
+	}
+
+
