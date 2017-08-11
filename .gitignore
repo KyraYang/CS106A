@@ -3,7 +3,7 @@
 .DS_Store
 .DS_Store
 *.prefs
-Section 5/.classpath
-Section 5/.project
+.classpath
+.project
 /.metadata/
 /.recommenders/
