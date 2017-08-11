@@ -10,11 +10,14 @@
 			<item value="/home/kyra/workspace/CS106A/Assignment2"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value="/Users/kyrayang/Movies/CS106A/BlankJavaProject.zip"/>
 			<item value="/Users/kyrayang/Movies/CS106A/Assignment5.zip"/>
 			<item value="/Users/kyrayang/Downloads/BlankJavaProject.zip"/>
 			<item value="/Users/kyrayang/Downloads/Assignment4.zip"/>
 			<item value="/Users/kyrayang/Downloads/Assignment3.zip"/>
 			<item value=""/>
 		</list>
+	</section>
+	<section name="org.eclipse.ui.internal.views.markers.FiltersConfigurationDialog">
 	</section>
 </section>

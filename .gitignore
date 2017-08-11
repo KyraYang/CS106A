@@ -5,3 +5,5 @@
 *.prefs
 Section 5/.classpath
 Section 5/.project
+/.metadata/
+/.recommenders/
